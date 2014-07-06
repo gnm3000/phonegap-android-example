@@ -4,20 +4,37 @@
    <title>Audio Stream Example</title>
 
 	<!-- JavaScript -->
+	<script type="text/javascript" src="script/soundmanager2.js"></script>
 	<script type="text/javascript">
-		// Auto Start
-		window.onload = function() { playStream(); };
-		// Code from http://www.joeldare.com/wiki/play_an_mp3_audio_stream_in_phonegap
-		function playStream() {
-		  try {
-		    var myaudio = new Audio('http://icecast.ksl.com:8000/');
-		    myaudio.id = 'playerMyAdio';
-		    myaudio.play();
-		  } catch (e) {
-		    alert('no audio support!');
-		  }
-		}
-	</script>
+
+soundManager.url = 'swf/';
+
+soundManager.debugMode = true;
+soundManager.preferFlash = false;
+soundManager.useFlashBlock = true;
+soundManager.flashVersion = 9;
+soundManager.useHighPerformance = true; 
+soundManager.useFastPolling = true; 
+
+soundManager.onready(function(){
+
+  var bleh = soundManager.createSound({
+   id: 'NoLife-Radio',
+   url: 'http://icecast.ksl.com:8000/',
+   type: 'audio/mp3', // 'audio/mp4' ?
+   autoPlay: false,
+   stream: true,
+   autoLoad: true
+  });
+});
+
+soundManager.ontimeout(function(){
+
+  // Hrmm, SM2 could not start. Flash blocker involved? Show an error, etc.?
+  alert("Could not start");
+});
+
+</script>
 
 	<!-- CSS -->
 	<style type="text/css">
@@ -31,6 +48,6 @@
   <script src="cordova-1.5.0.js"></script>
      </head>
   <body>
-   <button onclick="playStream()">Listen Live</button>
+   <a href="#" onClick="javascript: soundManager.play('NoLife-Radio');">Play</a>
   </body>
 </html>
